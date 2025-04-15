@@ -1,10 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Box, Button, Container, Grid2, IconButton, Stack, TextField, Typography, Divider, FormLabel, FormControl, Link, Card, CardContent, Alert, Snackbar, } from '@mui/material'
 import Iridescence from './Iridescence'
-import Hyperspeed from './Hyperspeed'
-import LetterGlitch from './LetterGlitch'
-import GradientText from './GradientText'
-import InsightsIcon from '@mui/icons-material/Insights';
+
 import { GoogleLogin, useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 
 import { styled } from '@mui/material/styles';

@@ -97,7 +97,7 @@ const rejectStyle = {
 };
 
 
-function ChartForm() {
+function GraphForm() {
   const colID = uuidv4()
   const rowID = uuidv4()
   const [activeTab, setActiveTab] = useState('manual')
@@ -105,14 +105,14 @@ function ChartForm() {
   const [rows, setRows] = useState({ [rowID]: [{ columnId: colID, rowData: '' }] })
   const [manualData, setManualData] = useState([{ columnId: colID, rowId: uuidv4(), rowData: '', }])
   const [alertConfig, setAlertConfig] = useState({ open: false, type: 'error', message: '' })
-  const [chartFormFields, setChartFormFields] = useState({ title: '', diamention: '2d', type: '' })
+  const [graphFormFields, setgraphFormFields] = useState({ title: '', diamention: '2d', type: '' })
   const [loading, setLoading] = useState(false)
-  const [showChart, setShowChart] = useState(false)
+  const [showGraph, setShowGraph] = useState(false)
   const canvasRef = useRef(null)
-  const chartRef = useRef(null)
+  const graphRef = useRef(null)
 
-  const handleChartFormFieldsChange = (e) => {
-    setChartFormFields({ ...chartFormFields, [e.target.name]: e.target.value })
+  const handleGraphFormFieldsChange = (e) => {
+    setgraphFormFields({ ...graphFormFields, [e.target.name]: e.target.value })
   }
   const handleTabChange = (_, newValue) => {
     setActiveTab(newValue);
@@ -130,9 +130,9 @@ function ChartForm() {
   const handleRowFields = (rowId, colId, name, value) => {
     setRows({
       ...rows, [rowId]: rows[rowId].map(data => {
-        
+
         if (data.columnId === colId) {
-          value = columns[data.columnId]['colType']==='text'?String(value):Number(value)
+          value = columns[data.columnId]['colType'] === 'text' ? String(value) : Number(value)
           return { ...data, [name]: value }
         }
         else {
@@ -201,7 +201,15 @@ function ChartForm() {
     e.preventDefault()
     setLoading(true)
     try {
-      if(activeTab==='manual'){
+      if (activeTab === 'manual') {
+        let manualData = []
+        Object.keys(rows).forEach(rowId => {
+          const row = {}
+          rows[rowId].forEach(data => {
+            row[columns[data.columnId]['colName']] = data.rowData
+          })
+          manualData.push(row)
+        })
 
       }
 
@@ -211,28 +219,28 @@ function ChartForm() {
     finally {
 
     }
-    setShowChart(true)
+    setShowGraph(true)
     setTimeout(() => setLoading(false), 5000)
     console.log(columns, rows)
 
-    
+
     setManualData(JSON.stringify(manualData))
     // console.log(manualData)
   }
 
 
   const handleDownload = useCallback(() => {
-    
-    if (chartRef.current) {
+
+    if (graphRef.current) {
       // Get the canvas element
-      const canvas = chartRef.current.canvas
+      const canvas = graphRef.current.canvas
       // Create a temporary link element
       const link = document.createElement("a")
-      link.download = `${chartFormFields.title.toLowerCase()}-chart.png`
+      link.download = `${graphFormFields.title.toLowerCase()}-Graph.png`
       link.href = canvas.toDataURL("image/png")
       link.click()
     }
-  }, [chartFormFields.title])
+  }, [graphFormFields.title])
 
   const {
     getRootProps,
@@ -240,7 +248,7 @@ function ChartForm() {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({ accept: { 'application/vnd.ms-excel': ['.xls'], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':['.xlsx'] }, maxFiles:1 });
+  } = useDropzone({ accept: { 'application/vnd.ms-excel': ['.xls'], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'] }, maxFiles: 1 });
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -259,49 +267,47 @@ function ChartForm() {
         <Grid2 container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Grid2 size={{ xs: 12, sm: 6, md: 6 }}>
             <Paper sx={{ p: 3, borderRadius: '20px', mb: 2 }} elevation={15}>
-              <Typography textAlign={'center'} sx={{ mb: 2 }} variant='p' component={'h2'}>Chart Configuration</Typography>
+              <Typography textAlign={'center'} sx={{ mb: 2 }} variant='p' component={'h2'}>Graph Configuration</Typography>
               <Box component={'form'} onSubmit={handleManualDataSubmit} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <TextField
-                  label='Chart Title'
+                  label='Graph Title'
                   required
                   sx={{ mb: 3 }}
                   size='small'
                   name='title'
-                  value={chartFormFields.title}
-                  onChange={handleChartFormFieldsChange}
+                  value={graphFormFields.title}
+                  onChange={handleGraphFormFieldsChange}
                 />
                 <Stack direction={{ xs: 'column', md: 'row' }} alignItems={'center'} spacing={2} mb={2}>
                   <FormControl sx={{ minWidth: { xs: "100%", md: "150px" } }} component="fieldset" margin="normal">
-                    <FormLabel required component="legend">Chart Dimension</FormLabel>
+                    <FormLabel required component="legend">Graph Dimension</FormLabel>
                     <RadioGroup
 
                       row
                       name='diamention'
-                      value={chartFormFields.diamention}
-                      onChange={handleChartFormFieldsChange}
+                      value={graphFormFields.diamention}
+                      onChange={handleGraphFormFieldsChange}
                     >
                       <FormControlLabel value="2d" control={<Radio size="small" />} label="2D" />
                       <FormControlLabel value="3d" control={<Radio size="small" />} label="3D" />
                     </RadioGroup>
                   </FormControl>
                   <FormControl fullWidth margin="normal">
-                    <InputLabel size='small' id="chart-type-label">Chart Type</InputLabel>
+                    <InputLabel size='small' id="Graph-type-label">Graph Type</InputLabel>
                     <Select
                       size='small'
-                      labelId="chart-type-label"
+                      labelId="Graph-type-label"
                       required
-                      label="Chart Type"
+                      label="Graph Type"
                       name='type'
-                      value={chartFormFields.type}
-                      onChange={handleChartFormFieldsChange}
+                      value={graphFormFields.type}
+                      onChange={handleGraphFormFieldsChange}
 
                     >
-                      <MenuItem value="bar">Bar Chart</MenuItem>
-                      <MenuItem value="line">Line Chart</MenuItem>
-                      <MenuItem value="pie">Pie Chart</MenuItem>
-                      <MenuItem value="doughnut">Doughnut Chart</MenuItem>
-                      <MenuItem value="radar">Radar Chart</MenuItem>
-                      <MenuItem value="polarArea">Polar Area Chart</MenuItem>
+                      <MenuItem value="bar">Bar Graph</MenuItem>
+                      <MenuItem value="line">Line Graph</MenuItem>
+                      <MenuItem value="pie">Pie Graph</MenuItem>
+                      <MenuItem value="scatter">Scatter Graph</MenuItem>
 
                     </Select>
                   </FormControl>
@@ -465,7 +471,7 @@ function ChartForm() {
                   </TabPanel>
                 </TabContext>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-                  <Button sx={{ textTransform: 'none' }} loading={loading} type='submit' variant='contained' color='success' endIcon={<Analytics />}>Generate Chart</Button>
+                  <Button sx={{ textTransform: 'none' }} loading={loading} type='submit' variant='contained' color='success' endIcon={<Analytics />}>Generate Graph</Button>
                 </Box>
 
 
@@ -475,35 +481,35 @@ function ChartForm() {
           </Grid2>
 
           <Grid2 size={{ xs: 12, md: 8 }}>
-            <Collapse in={showChart} unmountOnExit timeout={'auto'}>
-              <Paper sx={{ }} elevation={8}>
+            <Collapse in={showGraph} unmountOnExit timeout={'auto'}>
+              <Paper sx={{}} elevation={8}>
                 {loading && <Box position={'relative'} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} width={'100%'} height={'400px'}>
-                  <Typography position={'absolute'}  variant={'h1'} sx={{ opacity: 0.1 }}>Visualizing Data</Typography>
-                  <Skeleton  animation='wave' variant="rounded" width={'100%'} height={'100%'} >
+                  <Typography position={'absolute'} variant={'h1'} sx={{ opacity: 0.1 }}>Visualizing Data</Typography>
+                  <Skeleton animation='wave' variant="rounded" width={'100%'} height={'100%'} >
                   </Skeleton>
                 </Box>}
                 {!loading && <Box sx={{ p: 2, height: { xs: '100%', md: '420px' } }}>
 
-                  <Box sx={{display:'flex', justifyContent:'flex-end'}}>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button size='small' variant='outlined' endIcon={<Download />} onClick={handleDownload}>
                       Download PNG
                     </Button>
                   </Box>
-                  <Box  sx={{ width:'100%', height:{xs:'auto',md:'400px'},display:'flex', justifyContent:'center', alignItems:'flex-start', border:'1px solid red'}}>
-                    {/* <LineGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
-                    {/* <PieGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
-                    {/* <ScatterGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
+                  <Box sx={{ width: '100%', height: { xs: 'auto', md: '400px' }, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', border: '1px solid red' }}>
+                    {/* <LineGraph downloadRef={graphRef} graphTitle={graphFormFields.title} graphData={manualData} /> */}
+                    {/* <PieGraph downloadRef={graphRef} graphTitle={graphFormFields.title} graphData={manualData} /> */}
+                    {/* <ScatterGraph downloadRef={graphRef} graphTitle={graphFormFields.title} graphData={manualData} /> */}
                     {/* <Graphs3D /> */}
                   </Box>
-                  
+
                 </Box>}
               </Paper>
             </Collapse>
 
           </Grid2>
           <Grid2 size={{ xs: 12, md: 4 }}>
-            <Collapse in={showChart} unmountOnExit timeout={'auto'}>
-              <Paper sx={{  }} elevation={8}>
+            <Collapse in={showGraph} unmountOnExit timeout={'auto'}>
+              <Paper sx={{}} elevation={8}>
 
                 {loading && <Box sx={{ p: 2 }} height={'370px'} >
                   <Skeleton animation='wave' />
@@ -525,12 +531,12 @@ function ChartForm() {
 
 
                 </Box>}
-                {!loading && <Box sx={{  overflow: 'auto' }} height={'450px'} >
+                {!loading && <Box sx={{ overflow: 'auto' }} height={'450px'} >
                   <Typography component={'h3'} m={2} variant='p' gap={0.5} display={'flex'} justifyContent={'center'} alignItems={'center'} sx={{ color: '#444cd1' }}><LinearGradient gradient={['to left', '#0d61ec ,#de0f82']}>AI-Insights <AutoAwesome fontSize='small' /> </LinearGradient></Typography>
-                    <Container>
+                  <Container>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdownData}</ReactMarkdown>
-                    </Container>
-                  
+                  </Container>
+
 
 
 
@@ -550,4 +556,4 @@ function ChartForm() {
   )
 }
 
-export default ChartForm
+export default GraphForm

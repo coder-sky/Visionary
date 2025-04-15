@@ -13,6 +13,7 @@ import Profile from './components/Common/Profile'
 import ChangePassword from './components/Common/ChangePassword'
 import CommonProtectedRoutes from './components/Common/ProtectedRoutes/CommonProtectedRoutes'
 import ChartForm from './components/User/ChartForm'
+import GraphForm from './components/User/GraphForm'
 
  
 function App() {
@@ -32,7 +33,7 @@ function App() {
       <Route path='/home' element={<UserProtectedRoute><Home/></UserProtectedRoute>} />
       <Route path='/dashboard'  element={<AdminProtectedRoute><Dashboard/></AdminProtectedRoute>} />
       <Route path='/users' element={<AdminProtectedRoute><Users/></AdminProtectedRoute>} />
-      <Route path='/charts-creation' element={<UserProtectedRoute><ChartForm/></UserProtectedRoute>} />
+      <Route path='/graphs-creation' element={<UserProtectedRoute><GraphForm/></UserProtectedRoute>} />
      
        
     </Routes>

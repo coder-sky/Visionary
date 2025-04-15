@@ -47,8 +47,8 @@ export default function NavBar() {
                     <Box>
                         <>
                             <Stack id='navMenu' direction={'row'} spacing={{ xs: 1, md: 2 }} alignItems={'center'}>
-                                <Link to={'/charts'} style={{ color: 'black', fontSize: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3, }}><Analytics /> Charts</Link>
-                                <Link to={'/my-creations'} style={{ color: 'black', fontSize: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3 }}><Source /> My Creations</Link>
+                                <Link to={'/graphs-creation'} style={{ color: 'black', fontSize: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3, }}><Analytics /> Graphs</Link>
+                                <Link to={'/workspace'} style={{ color: 'black', fontSize: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3 }}><Source /> Workspace</Link>
                                 <IconButton
                                     onClick={handleClick}
                                     size="small"

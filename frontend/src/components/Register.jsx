@@ -1,10 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Box, Button, Container, Grid2, IconButton, CardContent, Stack, TextField, Typography, Divider, FormLabel, FormControl, Link, Card, Alert, } from '@mui/material'
 import Iridescence from './Iridescence'
-import Hyperspeed from './Hyperspeed'
-import LetterGlitch from './LetterGlitch'
-import GradientText from './GradientText'
-import InsightsIcon from '@mui/icons-material/Insights';
+
 
 import { styled } from '@mui/material/styles';
 import SvgIcon from '@mui/material/SvgIcon';

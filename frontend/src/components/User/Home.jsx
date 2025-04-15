@@ -123,7 +123,7 @@ function Home() {
                 <Box sx={{ width: '100%', display:'flex', justifyContent:'center' ,flexDirection:'column', alignItems:'center' }}>
                         <Typography component={'h2'} variant='p'>Welcome to Visionary – Your Data, Your Insights</Typography>
                         <Typography m={2}  fontSize={'18px'} textAlign={'justify'}>Transform your data into meaningful insights with Visionary. Effortlessly create stunning visualizations, analyze trends, and make data-driven decisions with ease. Whether you're a beginner or a data expert, Visionary empowers you to explore and understand your data like never before.</Typography>
-                        <Link to={'/charts'}>
+                        <Link to={'/graphs-creation'}>
                         <Button size='large' variant='contained' sx={{textTransform:'none', borderRadius:'20px'}} endIcon={<ArrowRight />}>Get Started</Button>
                         </Link>
                         
