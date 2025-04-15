@@ -19,6 +19,8 @@
         "@mui/styled-engine-sc": "^6.4.3",
         "@mui/x-date-pickers": "^7.28.0",
         "@react-oauth/google": "^0.12.1",
+        "@react-three/drei": "^10.0.6",
+        "@react-three/fiber": "^9.1.2",
         "@toolpad/core": "^0.12.0",
         "axios": "^1.8.3",
         "chart.js": "^4.4.8",

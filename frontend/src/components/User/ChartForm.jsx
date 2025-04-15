@@ -15,6 +15,7 @@ import { LinearGradient } from 'react-text-gradients';
 import LineGraph from './2dGraphs/LineGraph';
 import PieGraph from './2dGraphs/PieGraph';
 import ScatterGraph from './2dGraphs/ScatterGraph';
+import Graphs3D from './3dGraphs/Graphs3D';
 
 const markdownData = `### Data Analysis & Insights: Advertising Campaign Performance (October 7-12, 2024)
 
@@ -493,10 +494,11 @@ function ChartForm() {
                       Download PNG
                     </Button>
                   </Box>
-                  <Box  sx={{ width:'100%', height:'400px',display:'flex', justifyContent:'center', alignItems:'flex-start', border:'1px solid red'}}>
+                  <Box  sx={{ width:'100%', height:{xs:'auto',md:'400px'},display:'flex', justifyContent:'center', alignItems:'flex-start', border:'1px solid red'}}>
                     {/* <LineGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
                     {/* <PieGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
-                    <ScatterGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} />
+                    {/* <ScatterGraph downloadRef={chartRef} graphTitle={chartFormFields.title} graphData={manualData} /> */}
+                    <Graphs3D />
                   </Box>
                   
                 </Box>}
